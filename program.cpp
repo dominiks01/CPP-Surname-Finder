@@ -1,6 +1,7 @@
 #include <cctype>
 #include <cinttypes>
 #include <cstddef>
+#include <cstdio>
 #include <cstring>
 #include <map>
 #include <string>
@@ -105,13 +106,16 @@ void ExtractData(const std::string& content, std::vector<std::pair<std::string, 
     }
 }
 
-int main(){
+int get_surnames(){
+    occurance_in_poland.clear(); 
+    result.clear();
+
     CURL* curl;
     CURLcode res;
     curl_global_init(CURL_GLOBAL_DEFAULT);
     curl = curl_easy_init();
 
-    std::string name;
+    std::string name = "";
 
     std::cout << "Wpisz nazwisko do sprawdzenia: ";
     std::cin >> name;
@@ -125,19 +129,19 @@ int main(){
         if(std::isalpha(name[i]))
             valid_url += name[i];
         else {
-                std::stringstream ss;
-                ss << std::hex << std::setw(2) << static_cast<int>(name[i]);
-                std::string encoded = "%" + ss.str();
-                transform(encoded.begin(), encoded.end(), encoded.begin(), ::toupper);
+            std::stringstream ss;
+            ss.clear();
+            ss << std::hex << std::setw(2) << static_cast<int>(name[i]);
+            std::string encoded = "%" + ss.str();
+            transform(encoded.begin(), encoded.end(), encoded.begin(), ::toupper);
 
-                valid_url += ("%" + encoded.substr(encoded.size() - 2));
+            valid_url += ("%" + encoded.substr(encoded.size() - 2));
         }
     }
 
     valid_url = url + valid_url;
 
     if (curl){
-        
         std::string response;
         curl_easy_setopt(curl, CURLOPT_URL, valid_url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
@@ -181,5 +185,21 @@ int main(){
     }
 
     curl_global_cleanup();
+    return 0;
+}
+
+
+int main(){
+    std::string conntinue; 
+    while (true) {
+        get_surnames();
+        std::cout << "conntinue(y/n): ";
+        std::cin.clear();
+        
+        std::cin >> conntinue;
+        if (conntinue != "y")
+            return 0; 
+    }
+
     return 0;
 }
