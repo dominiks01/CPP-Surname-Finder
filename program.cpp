@@ -193,7 +193,7 @@ int main(){
     std::string conntinue; 
     while (true) {
         get_surnames();
-        std::cout << "conntinue(y/n): ";
+        std::cout << reset << "conntinue(y/n): ";
         std::cin.clear();
         
         std::cin >> conntinue;
