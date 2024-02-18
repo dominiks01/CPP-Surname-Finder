@@ -1,5 +1,5 @@
 # Small project for C++ course at AGH.
-The program checks data on the occurrence of surnames in poland.
+The program checks data on the occurrence of surnames in Poland.
 
 Libraries used in program: 
 * [curl](https://curl.se/)
